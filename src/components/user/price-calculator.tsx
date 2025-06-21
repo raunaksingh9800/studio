@@ -16,6 +16,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import type { PaperType } from "@/types";
+import { addOrder } from "@/lib/order-store";
 
 const paperTypes: { value: PaperType; label: string }[] = [
   { value: "A4 Plain", label: "A4 Plain (80gsm)" },
@@ -81,7 +82,15 @@ export default function PriceCalculator() {
       return;
     }
     setIsUploading(true);
+    
     setTimeout(() => {
+      addOrder({
+        fileName: file.name,
+        quantity,
+        paperType,
+        price,
+      });
+
       setIsUploading(false);
       toast({
         title: "Upload Successful!",

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -16,58 +19,28 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { PrintOrder } from "@/types";
-import { Download, Printer } from "lucide-react";
+import { Download, Printer, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getOrders } from "@/lib/order-store";
+import { QrDialog } from "@/components/qr-dialog";
 
-const mockQueue: PrintOrder[] = [
-  {
-    id: "ORD-003",
-    fileName: "event_flyer.png",
-    quantity: 50,
-    paperType: "A4 Plain",
-    status: "Ready for Pickup",
-    uploadDate: "2023-10-28",
-    price: 2000.00,
-  },
-  {
-    id: "ORD-002",
-    fileName: "project_report_v2.docx",
-    quantity: 1,
-    paperType: "A4 Plain",
-    status: "Printing",
-    uploadDate: "2023-10-27",
-    price: 460.00,
-  },
-  {
-    id: "ORD-004",
-    fileName: "quarterly_review.pdf",
-    quantity: 5,
-    paperType: "A3 Plain",
-    status: "Pending",
-    uploadDate: "2023-10-29",
-    price: 1456.00,
-  },
-  {
-    id: "ORD-005",
-    fileName: "wedding_invites.pdf",
-    quantity: 150,
-    paperType: "A4 Glossy",
-    status: "Pending",
-    uploadDate: "2023-10-29",
-    price: 9660.00,
-  },
-    {
-    id: "ORD-001",
-    fileName: "final_presentation.pdf",
-    quantity: 2,
-    paperType: "A4 Glossy",
-    status: "Completed",
-    uploadDate: "2023-10-26",
-    price: 1000.00,
-  },
-];
 
 export default function PrintQueue() {
+  const [orders, setOrders] = useState<PrintOrder[]>([]);
+
+  useEffect(() => {
+    setOrders(getOrders());
+
+    const handleStorageChange = () => {
+      setOrders(getOrders());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
 
   const getStatusBadge = (status: PrintOrder['status']) => {
     switch (status) {
@@ -99,7 +72,7 @@ export default function PrintQueue() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockQueue.map((order) => (
+            {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.fileName}</TableCell>
                 <TableCell>
@@ -113,6 +86,12 @@ export default function PrintQueue() {
                 <TableCell>{order.uploadDate}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
+                    <QrDialog orderId={order.id}>
+                      <Button variant="outline" size="sm">
+                        <QrCode className="mr-2 h-4 w-4" />
+                        QR Code
+                      </Button>
+                    </QrDialog>
                     <Button variant="outline" size="sm">
                       <Download className="mr-2 h-4 w-4" />
                       Download

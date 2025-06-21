@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -16,48 +19,27 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { PrintOrder } from "@/types";
 import { cn } from "@/lib/utils";
-import { PackageCheck, PackageSearch, Truck } from "lucide-react";
-
-const mockOrders: PrintOrder[] = [
-  {
-    id: "ORD-001",
-    fileName: "final_presentation.pdf",
-    quantity: 2,
-    paperType: "A4 Glossy",
-    status: "Completed",
-    uploadDate: "2023-10-26",
-    price: 1000.00,
-  },
-  {
-    id: "ORD-002",
-    fileName: "project_report_v2.docx",
-    quantity: 1,
-    paperType: "A4 Plain",
-    status: "Printing",
-    uploadDate: "2023-10-27",
-    price: 460.00,
-  },
-  {
-    id: "ORD-003",
-    fileName: "event_flyer.png",
-    quantity: 50,
-    paperType: "A4 Plain",
-    status: "Ready for Pickup",
-    uploadDate: "2023-10-28",
-    price: 2000.00,
-  },
-  {
-    id: "ORD-004",
-    fileName: "quarterly_review.pdf",
-    quantity: 5,
-    paperType: "A3 Plain",
-    status: "Pending",
-    uploadDate: "2023-10-29",
-    price: 1456.00,
-  },
-];
+import { PackageCheck, PackageSearch, Truck, QrCode } from "lucide-react";
+import { getOrders } from "@/lib/order-store";
+import { Button } from "@/components/ui/button";
+import { QrDialog } from "@/components/qr-dialog";
 
 export default function OrderStatus() {
+  const [orders, setOrders] = useState<PrintOrder[]>([]);
+
+  useEffect(() => {
+    setOrders(getOrders());
+
+    const handleStorageChange = () => {
+      setOrders(getOrders());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   const getStatusBadge = (status: PrintOrder['status']) => {
     switch (status) {
       case 'Pending': return 'bg-yellow-400/20 text-yellow-600 border-yellow-400/30';
@@ -91,10 +73,11 @@ export default function OrderStatus() {
               <TableHead>File</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Price</TableHead>
+              <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockOrders.map((order) => (
+            {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.fileName}</TableCell>
                 <TableCell>
@@ -106,6 +89,13 @@ export default function OrderStatus() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">₹{order.price.toFixed(2)}</TableCell>
+                <TableCell className="text-right">
+                  <QrDialog orderId={order.id}>
+                    <Button variant="ghost" size="icon">
+                      <QrCode className="h-5 w-5" />
+                    </Button>
+                  </QrDialog>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
