@@ -19,10 +19,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { PrintOrder } from "@/types";
 import { cn } from "@/lib/utils";
-import { PackageCheck, PackageSearch, Truck, QrCode } from "lucide-react";
+import { PackageCheck, PackageSearch, Truck } from "lucide-react";
 import { getOrders } from "@/lib/order-store";
-import { Button } from "@/components/ui/button";
-import { QrDialog } from "@/components/qr-dialog";
 
 export default function OrderStatus() {
   const [orders, setOrders] = useState<PrintOrder[]>([]);
@@ -73,7 +71,6 @@ export default function OrderStatus() {
               <TableHead>File</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Price</TableHead>
-              <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -89,13 +86,6 @@ export default function OrderStatus() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">₹{order.price.toFixed(2)}</TableCell>
-                <TableCell className="text-right">
-                  <QrDialog orderId={order.id}>
-                    <Button variant="ghost" size="icon">
-                      <QrCode className="h-5 w-5" />
-                    </Button>
-                  </QrDialog>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

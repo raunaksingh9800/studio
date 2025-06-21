@@ -55,10 +55,20 @@ export default function PrintQueue() {
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline text-2xl">Incoming Orders</CardTitle>
-        <CardDescription>
-          This is the queue of all current print jobs.
-        </CardDescription>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <CardTitle className="font-headline text-2xl">Incoming Orders</CardTitle>
+            <CardDescription>
+              This is the queue of all current print jobs.
+            </CardDescription>
+          </div>
+          <QrDialog>
+            <Button variant="outline">
+              <QrCode className="mr-2 h-4 w-4" />
+              Pickup QR
+            </Button>
+          </QrDialog>
+        </div>
       </CardHeader>
       <CardContent>
         <Table>
@@ -86,12 +96,6 @@ export default function PrintQueue() {
                 <TableCell>{order.uploadDate}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <QrDialog orderId={order.id}>
-                      <Button variant="outline" size="sm">
-                        <QrCode className="mr-2 h-4 w-4" />
-                        QR Code
-                      </Button>
-                    </QrDialog>
                     <Button variant="outline" size="sm">
                       <Download className="mr-2 h-4 w-4" />
                       Download

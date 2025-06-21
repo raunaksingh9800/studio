@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 
-export function QrDialog({ orderId, children }: { orderId: string; children: React.ReactNode }) {
+export function QrDialog({ orderId, children }: { orderId?: string; children: React.ReactNode }) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[320px]">
         <DialogHeader>
-          <DialogTitle>Order: {orderId}</DialogTitle>
+          <DialogTitle>{orderId ? `Order: ${orderId}` : "Pickup QR Code"}</DialogTitle>
           <DialogDescription>
             Show this QR code at the counter for pickup.
           </DialogDescription>
