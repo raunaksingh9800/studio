@@ -27,7 +27,7 @@ const mockQueue: PrintOrder[] = [
     paperType: "A4 Plain",
     status: "Ready for Pickup",
     uploadDate: "2023-10-28",
-    price: 25.00,
+    price: 2000.00,
   },
   {
     id: "ORD-002",
@@ -36,7 +36,7 @@ const mockQueue: PrintOrder[] = [
     paperType: "A4 Plain",
     status: "Printing",
     uploadDate: "2023-10-27",
-    price: 5.75,
+    price: 460.00,
   },
   {
     id: "ORD-004",
@@ -45,7 +45,7 @@ const mockQueue: PrintOrder[] = [
     paperType: "A3 Plain",
     status: "Pending",
     uploadDate: "2023-10-29",
-    price: 18.20,
+    price: 1456.00,
   },
   {
     id: "ORD-005",
@@ -54,7 +54,7 @@ const mockQueue: PrintOrder[] = [
     paperType: "A4 Glossy",
     status: "Pending",
     uploadDate: "2023-10-29",
-    price: 120.75,
+    price: 9660.00,
   },
     {
     id: "ORD-001",
@@ -63,7 +63,7 @@ const mockQueue: PrintOrder[] = [
     paperType: "A4 Glossy",
     status: "Completed",
     uploadDate: "2023-10-26",
-    price: 12.50,
+    price: 1000.00,
   },
 ];
 

@@ -67,8 +67,8 @@ export default function PriceCalculator() {
     setIsCalculating(true);
     setTimeout(() => {
       const pages = Math.max(1, Math.ceil(file.size / 5000));
-      const paperCosts: Record<PaperType, number> = { "A4 Plain": 0.08, "A4 Glossy": 0.15, "A3 Plain": 0.18 };
-      const baseCostPerPage = 0.1;
+      const paperCosts: Record<PaperType, number> = { "A4 Plain": 6.5, "A4 Glossy": 12, "A3 Plain": 15 };
+      const baseCostPerPage = 8;
       const calculatedPrice = (pages * (baseCostPerPage + paperCosts[paperType])) * quantity;
       setPrice(calculatedPrice);
       setIsCalculating(false);
@@ -184,7 +184,7 @@ export default function PriceCalculator() {
                 Estimated Price
               </p>
               <p className="font-headline text-5xl font-bold text-primary transition-all duration-300">
-                ${price.toFixed(2)}
+                ₹{price.toFixed(2)}
               </p>
             </div>
           )}

@@ -26,7 +26,7 @@ const mockOrders: PrintOrder[] = [
     paperType: "A4 Glossy",
     status: "Completed",
     uploadDate: "2023-10-26",
-    price: 12.50,
+    price: 1000.00,
   },
   {
     id: "ORD-002",
@@ -35,7 +35,7 @@ const mockOrders: PrintOrder[] = [
     paperType: "A4 Plain",
     status: "Printing",
     uploadDate: "2023-10-27",
-    price: 5.75,
+    price: 460.00,
   },
   {
     id: "ORD-003",
@@ -44,7 +44,7 @@ const mockOrders: PrintOrder[] = [
     paperType: "A4 Plain",
     status: "Ready for Pickup",
     uploadDate: "2023-10-28",
-    price: 25.00,
+    price: 2000.00,
   },
   {
     id: "ORD-004",
@@ -53,7 +53,7 @@ const mockOrders: PrintOrder[] = [
     paperType: "A3 Plain",
     status: "Pending",
     uploadDate: "2023-10-29",
-    price: 18.20,
+    price: 1456.00,
   },
 ];
 
@@ -105,7 +105,7 @@ export default function OrderStatus() {
                     </div>
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">${order.price.toFixed(2)}</TableCell>
+                <TableCell className="text-right">₹{order.price.toFixed(2)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
